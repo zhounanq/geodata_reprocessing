@@ -20,7 +20,7 @@ gdal.UseExceptions()
 # --georef-file "H:/FF/application_dataset/africa_grass/PROBAV_S5_TOC_X17Y04/spatialref/PROBAV_S5_TOC_X17Y04_100M_V101.HDF5.tif"
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Scrapy china land surface water quality info')
+    parser = argparse.ArgumentParser(description='NDVI max(mean) composite for Probav data')
     parser.add_argument('--src-folder', required=False, type=str, default="./",
                         help='source folder containing files for composition')
     parser.add_argument('--target-file', required=False, type=str, default="./data",
@@ -124,7 +124,7 @@ class probav_s5_toc_reader(object):
         hdf5_datasource = gdal.Open(self.src_file, gdal.GA_ReadOnly)
         if hdf5_datasource is not None:
             subdataset = hdf5_datasource.GetSubDatasets()
-            print("Subdataset: ", subdataset)
+            # print("Subdataset: ", subdataset)
 
         return hdf5_datasource
 
@@ -133,6 +133,9 @@ class probav_s5_toc_reader(object):
 
 
 def ndvi_composites(src_files, target_file, ref_file, operator="max"):
+
+    if os.path.exists(target_file):
+        os.remove(target_file)
 
     ndvi_mask = []
     for i, file in enumerate(src_files):
@@ -150,7 +153,7 @@ def ndvi_composites(src_files, target_file, ref_file, operator="max"):
 def main():
     now = datetime.datetime.now()
     print("###########################################################")
-    print("### China land surface water quality info #################")
+    print("### NDVI max(mean) composite ##############################")
     print("### ", now)
     print("###########################################################")
 
@@ -183,8 +186,7 @@ def main():
     # src_files = [probav_s5_toc_1, probav_s5_toc_2]
     # ndvi_composites(src_files, target_file, georef_file)
 
-    print("### Task over")
-    pass
+    print("### Task over #############################################")
 
 
 if __name__ == "__main__":
