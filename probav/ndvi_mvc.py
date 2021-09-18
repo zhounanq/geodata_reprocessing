@@ -19,6 +19,7 @@ gdal.UseExceptions()
 # --target-file "H:\FF\application_dataset\africa_grass\PROBAV_S5\PROBAV_C55_TOC_X17Y04_20190601_100M.tif"
 # --georef-file "H:/FF/application_dataset/africa_grass/PROBAV_S5_TOC_X17Y04/spatialref/PROBAV_S5_TOC_X17Y04_100M_V101.HDF5.tif"
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description='NDVI max(mean) composite for Probav data')
     parser.add_argument('--src-folder', required=False, type=str, default="./",
@@ -30,6 +31,7 @@ def parse_args():
     parser.add_argument('--operator', required=False, type=str, default="max", help='stistic operator')
     opts = parser.parse_args()
     return opts
+
 
 def save_band_image(img_array, save_path, format='GTiff'):
     """Save image on disk, with tiff format.

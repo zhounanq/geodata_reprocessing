@@ -13,8 +13,7 @@ import shutil
 import argparse
 
 
-def group_folder_s5_s10(folder):
-    prefix = "PROBAV_S5_TOC_X17Y04_2019060"
+def group_product_folder(folder, prefix="PROBAV_S5_TOC_X16Y04"):
 
     if not os.path.exists(folder):
         raise Exception("### {} not exist".format(folder))
@@ -35,9 +34,10 @@ def group_folder_s5_s10(folder):
 
 
 def main():
-    folder = "H:/FF/application_dataset/africa_grass/PROBAV_S5/"
+    folder = "H:/FF/application_dataset/africa_grass/all40/"
+    prefix = "PROBAV_S5_TOC_X16Y04"
 
-    group_folder_s5_s10(folder)
+    group_product_folder(folder, prefix)
 
     pass
 
