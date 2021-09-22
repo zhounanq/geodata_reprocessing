@@ -15,9 +15,10 @@ import numpy as np
 from osgeo import gdal, osr
 gdal.UseExceptions()
 
-# --src-folder "H:\FF\application_dataset\africa_grass\PROBAV_S5\PROBAV_S5_TOC_X17Y04_2019060"
-# --target-file "H:\FF\application_dataset\africa_grass\PROBAV_S5\PROBAV_C55_TOC_X17Y04_20190601_100M.tif"
-# --georef-file "H:/FF/application_dataset/africa_grass/PROBAV_S5_TOC_X17Y04/spatialref/PROBAV_S5_TOC_X17Y04_100M_V101.HDF5.tif"
+
+# --src-folder ""
+# --target-file ""
+# --georef-file ""
 
 
 def parse_args():
@@ -174,10 +175,6 @@ def main():
     #for
 
     ndvi_composites(src_files, target_file, georef_file, operator)
-
-    # # test gdal reader
-    # probav_s5_toc_file = "H:/FF/application_dataset/africa_grass/PROBAV_S5_TOC_X17Y04/PROBAV_S5_TOC_X17Y04_20200101_100M_V101.HDF5"
-    # hdf_reader = probav_s5_toc_reader(probav_s5_toc_file)
 
     # # test mvc
     # probav_s5_toc_1 = "H:/FF/application_dataset/africa_grass/PROBAV_S5_TOC_X17Y04/PROBAV_S5_TOC_X17Y04_20200101_100M_V101.HDF5"

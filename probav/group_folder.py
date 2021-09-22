@@ -34,12 +34,19 @@ def group_product_folder(folder, prefix="PROBAV_S5_TOC_X16Y04"):
 
 
 def main():
-    folder = "H:/FF/application_dataset/africa_grass/all40/"
-    prefix = "PROBAV_S5_TOC_X16Y04"
+    now = datetime.datetime.now()
+    print("###########################################################")
+    print("### NDVI max(mean) composite ##############################")
+    print("### ", now)
+    print("###########################################################")
+
+
+    folder = "F:/application_dataset/africa_grass/s10_r1km_toc/6/PROBAV_S10_TOC_X21Y08/"
+    prefix = "PROBAV_S10_TOC_X17Y04_2017"
 
     group_product_folder(folder, prefix)
 
-    pass
+    print("### Task over #############################################")
 
 
 if __name__ == "__main__":
