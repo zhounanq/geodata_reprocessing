@@ -21,7 +21,11 @@ def sg_filter(src_timeseries):
     return filtered_timeseries
 
 
-def yige_detection(tsdata):
+def yige_detection_1(tsdata):
+    """
+    PROBAV_S10_TOC_X17Y04
+    PROBAV_S10_TOC_X21Y04
+    """
     column = tsdata.columns.values
     column = [col[1:] for col in column]
 
@@ -64,6 +68,69 @@ def yige_detection(tsdata):
         # flot
         if len(yige_locations) > 0:
             print("### YIGE @ {}".format(yige_locations))
+        # fig = plt.figure(figsize=(12, 4))
+        # plt.plot(column, src_data, color='tab:blue', label="src", linestyle='-', linewidth=1)
+        # plt.plot(column, sgfiltered_data, color='deeppink', label="s-g", linestyle='-', linewidth=1)
+        # if len(yige_locations) > 0:
+        #     locations = np.array(yige_locations, dtype=int)
+        #     plt.scatter(np.array(column)[locations], np.array(src_data)[locations],
+        #                 marker=mpl.markers.CARETUPBASE, color='tab:green', s=32, label='YG')
+        # plt.legend()
+        # plt.show()
+    # for
+    # insert one column
+    tsdata["yige"] = results_arr
+
+    # return
+    return tsdata
+
+
+def yige_detection(tsdata):
+    column = tsdata.columns.values
+    column = [col[1:] for col in column]
+
+    results_arr = []
+
+    for index, row in tsdata.iterrows():
+        src_data = row
+        yige_locations = []
+        sgfiltered_data = sg_filter(src_data)
+
+        # is grass land or not?
+        row_max = np.max(src_data)
+
+        # number of elements with value == 0
+        zero_num = np.sum(src_data<10)
+
+        if (row_max>80) and (zero_num<2):
+
+            # 计算波峰波谷, 二次差分
+            doublediff = np.diff(np.sign(np.diff(src_data)))
+            peak_locations = np.where(doublediff == -2)[0] + 1
+            doublediff = np.diff(np.sign(np.diff(-1 * src_data)))
+            trough_locations = np.where(doublediff == -2)[0] + 1
+
+            diff_data = np.diff(src_data)
+            for peak in peak_locations:
+                if (src_data[peak]<60) or (peak>27) or (peak<3):
+                    continue
+                if (peak+1) in trough_locations:
+                    if (diff_data[peak-1]<5) and (diff_data[peak]<-15) and (diff_data[peak+1]>5):
+                        yige_locations = np.append(yige_locations, peak)
+                        continue
+                if (diff_data[peak]<-35) and (peak>12) and (peak<25):
+                    yige_locations = np.append(yige_locations, peak)
+                    continue
+            # for
+        # if
+
+        # store string
+        yege_str = ','.join(str(i) for i in yige_locations)
+        results_arr = np.append(results_arr, yege_str)
+
+        # flot
+        if len(yige_locations) > 0:
+            print("### YIGE @ {} @ {}".format(index, yige_locations))
         # fig = plt.figure(figsize=(12, 4))
         # plt.plot(column, src_data, color='tab:blue', label="src", linestyle='-', linewidth=1)
         # plt.plot(column, sgfiltered_data, color='deeppink', label="s-g", linestyle='-', linewidth=1)
@@ -125,8 +192,8 @@ def main():
     print("### ", now)
     print("###########################################################")
 
-    csvdata_file = "I:/FF/application-project/2021-africagrass\PROBAV/6/PROBAV_S10_TOC_X17Y04/shp/csv/pixel_tsattri_2020.csv"
-    target_file = "I:/FF/application-project/2021-africagrass\PROBAV/6/PROBAV_S10_TOC_X17Y04/shp/csv/pixel_tsattri_2020_yige.csv"
+    csvdata_file = "I:/FF/application-project/2021-africagrass/PROBAV/6/PROBAV_S10_TOC_X21Y06/shp/csv/pixel_tsattri_2020.csv"
+    target_file = "I:/FF/application-project/2021-africagrass/PROBAV/6/PROBAV_S10_TOC_X21Y06/shp/csv/pixel_tsattri_2020_yige.csv"
 
     tsprefix_pd, tsdata_pd = read_tsdata(csvdata_file)
 

@@ -42,7 +42,8 @@ def main():
 
 
     folder = "F:/application_dataset/africa_grass/s10_r1km_toc/6/PROBAV_S10_TOC_X21Y08/"
-    prefix = "PROBAV_S10_TOC_X17Y04_2017"
+    folder = 'J:/FF/application_dataset/africa_grass/PROBAV_S5_TOC_R100/'
+    prefix = "PROBAV_S5_TOC_X16Y04"
 
     group_product_folder(folder, prefix)
 
