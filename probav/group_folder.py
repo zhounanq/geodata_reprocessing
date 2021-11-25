@@ -40,8 +40,7 @@ def main():
     print("### ", now)
     print("###########################################################")
 
-
-    folder = "F:/application_dataset/africa_grass/s10_r1km_toc/6/PROBAV_S10_TOC_X21Y08/"
+    folder = "F:/application_dataset/africa_grass/s10_r1km_toc/PROBAV_S10_TOC_X23Y06/"
     prefix = "PROBAV_S10_TOC_X17Y04_2017"
 
     group_product_folder(folder, prefix)
