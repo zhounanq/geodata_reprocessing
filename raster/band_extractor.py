@@ -10,13 +10,35 @@ import os
 import time
 import datetime
 import argparse
-import gc
 import numpy as np
 from osgeo import gdal, osr
 gdal.UseExceptions()
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='Band extractor for Raster dataset')
+    parser.add_argument('--src-raster', required=False, type=str,
+                        default="./data/random.tif",
+                        help='source (input) raster file')
+    parser.add_argument('--target-raster', required=False, type=str,
+                        default="./data/target.tif",
+                        help='target raster file')
+    parser.add_argument('--band-list', required=False, type=str,
+                        default=[0],
+                        help='which bands to be extracted')
+    opts = parser.parse_args()
+    return opts
 
-def raster_band_extractor(src_raster, target_raster, band_list=[1], file_format='GTiff'):
+
+def raster_band_extractor(src_raster, target_raster, band_list=[0], file_format='GTiff'):
+    """
+
+    :param src_raster:
+    :param target_raster:
+    :param band_list:
+    :param file_format:
+    :return:
+    """
+    print("### Band extractor for []".format(src_raster))
 
     data_type = None
 
@@ -63,15 +85,43 @@ def raster_band_extractor(src_raster, target_raster, band_list=[1], file_format=
 
     # print("### Building overviews")
     # dst_ds.BuildOverviews("NEAREST")
-    target_ds.FlushCache()
+    # target_ds.FlushCache()
 
 
 def main():
     print("#############################################################")
 
-    img_path4 = "G:/FF/application_dataset/PROBAV_S10_TOC_X21Y08/PROBAV_S10_TOC_X21Y08_1KM.HDF5.tif"
-    img_path2 = "G:/FF/application_dataset/PROBAV_S10_TOC_X21Y08/shp/csv/PROBAV_S10_TOC_X21Y08_1KM_YIGE.tif"
-    pvcsv_path = "G:/FF/application_dataset/PROBAV_S10_TOC_X21Y08/shp/csv/pixel_tsattri_2020_yige.csv"
+    srcraster_list = [
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2A_MSIL2A_20210205T033931_N0214_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2A_MSIL2A_20210327T033531_N0214_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2A_MSIL2A_20210426T033531_N0300_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2A_MSIL2A_20210516T033541_N0300_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2A_MSIL2A_20210725T033541_N0301_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2A_MSIL2A_20210804T033541_N0301_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2A_MSIL2A_20210824T033541_N0301_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2A_MSIL2A_20210923T033541_N0301_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2A_MSIL2A_20211003T033601_N0301_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2B_MSIL2A_20210101T034139_N0214_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2B_MSIL2A_20210111T034119_N0214_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2B_MSIL2A_20210210T033859_N0214_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2B_MSIL2A_20210220T033759_N0214_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2B_MSIL2A_20210312T033539_N0214_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2B_MSIL2A_20210421T033529_N0300_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2B_MSIL2A_20210501T033529_N0300_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2B_MSIL2A_20210531T033539_N0300_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2B_MSIL2A_20210630T033539_N0300_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2B_MSIL2A_20210720T033539_N0301_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2B_MSIL2A_20210730T033539_N0301_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2B_MSIL2A_20210809T033539_N0301_R061_T48RWU_ireci.tif',
+        'i:\sentinel2-2021\L1C_T48RWU\index\ireci\S2B_MSIL2A_20210819T033539_N0301_R061_T48RWU_ireci.tif'
+    ]
+
+    for srcr in srcraster_list:
+        targetr = srcr[:-4] + '_1.tif'
+        raster_band_extractor(srcr, targetr)
+        pass
+
+    print("### Task is over!")
 
 
 if __name__ == "__main__":
