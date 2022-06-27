@@ -94,11 +94,10 @@ def csv_merge_folder_h(src_folder, target_file):
             print(abs_path)
             csvfile_list.append(abs_path)
     # for
-    csvfile_list.sort()
 
     target_pd = pd.DataFrame()
     for csvfile in csvfile_list:
-        csv_pd = pd.read_csv(csvfile, header=None)
+        csv_pd = pd.read_csv(csvfile, header=0)
         # target_pd = target_pd.merge(csv_pd, left_index=True, right_index=True, how='left')
         target_pd = pd.concat([target_pd, csv_pd], axis=1, ignore_index=False)
     # for
@@ -123,8 +122,8 @@ def main():
     # target_file = 'G:/FF/application_dataset/AmericanWatershed/01_shape_congaree_river/precipitation/0000/0000.csv'
     # csv_merge_folder_v(src_folder, target_file)
 
-    src_folder = 'E:/develop_project/python/ts_algorithms/pybfast/streamflow-bfast-10yr/season/'
-    target_file = 'E:/develop_project/python/ts_algorithms/pybfast/streamflow-bfast-10yr/season.csv'
+    src_folder = 'J:/FF/application_dataset/chongqing_agir/'
+    target_file = 'J:/FF/application_dataset/chongqing_agir//merge12.csv'
     csv_merge_folder_h(src_folder, target_file)
 
     print("### Task over #############################################")
