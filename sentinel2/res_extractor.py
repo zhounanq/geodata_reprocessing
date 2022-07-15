@@ -17,6 +17,21 @@ os.environ['CPL_ZIP_ENCODING'] = 'UTF-8'
 gdal.UseExceptions()
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='Sentinel-2 L2A image (in .xml)')
+    parser.add_argument('--src-path', required=False, type=str,
+                        default="./data/random.xml",
+                        help='source (input) raster file in HDF format')
+    parser.add_argument('--target-path', required=False, type=str,
+                        default="./data/target.tif",
+                        help='target raster file in TIFF format')
+    parser.add_argument('--res', required=False, type=str,
+                        default="10m",
+                        help='target resolution in [10m, 20m, slc]')
+    opts = parser.parse_args()
+    return opts
+
+
 def read_s2image_info(s2img_path):
     """
 
@@ -148,7 +163,7 @@ def resolution_extract_10m(s2img_path, target_path, format='GTiff'):
     del dst_ds
     del s2ds_sub1
 
-    print("###############################################")
+    print("### Success @ resolution_extract_10m() ##################")
 
 
 def resolution_extract_20m(s2img_path, target_path, format='GTiff'):
@@ -247,7 +262,7 @@ def resolution_extract_20m(s2img_path, target_path, format='GTiff'):
     del dst_ds
     del s2ds_sub2
 
-    print("###############################################")
+    print("### Success @ resolution_extract_20m() ##################")
 
 
 def resolution_extract_aot_cld_slc(s2img_path, target_path, format='GTiff'):
@@ -337,34 +352,46 @@ def resolution_extract_aot_cld_slc(s2img_path, target_path, format='GTiff'):
     del dst_ds
     del s2ds_sub2
 
-    print("###############################################")
+    print("### Success @ resolution_extract_slc() ##################")
 
 
 def main():
-    print("###########################################################")
-    print("### **************************** ##########################")
-    print("###########################################################")
+    print("######################################################################################")
+    print("### Resolution extractor from Sentinel-2 L2A image (in .xml) #########################")
+    print("######################################################################################")
     hide_info = False
-
-    s2img_path = r'G:\FF\application_dataset\s2_l1c\s2_l2a\S2A_MSIL2A_20190103T104431_N9999_R008_T31TFN_20220705T112918.SAFE\MTD_MSIL2A.xml'
-    target10m_path = r'G:\FF\application_dataset\s2_l1c\tif\S2A_MSIL2A_20190103T104431_10m.tif'
-    target20m_path = r'G:\FF\application_dataset\s2_l1c\tif\S2A_MSIL2A_20190103T104431_20m.tif'
-    targetslc_path = r'G:\FF\application_dataset\s2_l1c\tif\S2A_MSIL2A_20190103T104431_slc.tif'
-
 
     beg_date = time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))
     if not hide_info:
         print('### TIME: {}'.format(beg_date))
 
+    ###########################################################
+    # cmd line
+    # opts = parse_args()
+    # s2img_path = opts.src_path
+    # s2res_path = opts.target_path
+    # res = opts.res
+
+    s2img_path = r'F:\application_dataset\datafusion\S2B_MSIL2A_20220426T033529_N0400_R061_T48RWU_20220426T070029.SAFE\MTD_MSIL2A.xml'
+    s2res_path = r'F:\application_dataset\datafusion\S2B_MSIL2A_20220426_R061_T48RWU_10m.tif'
+    res = '10m'
+
+    ###########################################################
     # # 1. read gdal image using sentinel-2 driver.
     # s2ds_list = read_s2image_info(s2img_path)
 
     # 2. calculate index band.
-    resolution_extract_10m(s2img_path, target10m_path)
-    resolution_extract_20m(s2img_path, target20m_path)
-    resolution_extract_aot_cld_slc(s2img_path, targetslc_path)
+    if res=='10m':
+        resolution_extract_10m(s2img_path, s2res_path)
+    elif res=='20m':
+        resolution_extract_20m(s2img_path, s2res_path)
+    elif res=='slc':
+        resolution_extract_aot_cld_slc(s2img_path, s2res_path)
+    else:
+        print('Mode {} not supported'.format(res))
 
-
+    ###########################################################
+    # close
     end_date = time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))
     if not hide_info:
         print('### TIME: {}'.format(end_date))
