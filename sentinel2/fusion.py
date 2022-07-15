@@ -11,6 +11,7 @@ import numpy as np
 import warnings
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
+import joblib
 from osgeo import gdal, osr
 
 warnings.filterwarnings('ignore')
@@ -18,7 +19,7 @@ os.environ['CPL_ZIP_ENCODING'] = 'UTF-8'
 gdal.UseExceptions()
 
 
-def parse_args():
+def parse_args_train_predict():
     parser = argparse.ArgumentParser(description='Raster fusion using two temporal images')
     parser.add_argument('--r1-path', required=False, type=str,
                         default="./data/r1.tif",
@@ -32,6 +33,30 @@ def parse_args():
     parser.add_argument('--mask-path', required=False, type=str,
                         default="./data/mask.tif",
                         help='mask raster file in TIFF format')
+    parser.add_argument('--result-path', required=False, type=str,
+                        default="2",
+                        help='result raster file in TIFF format')
+    opts = parser.parse_args()
+    return opts
+
+
+def parse_args_predict():
+    parser = argparse.ArgumentParser(description='Raster fusion using two temporal images')
+    parser.add_argument('--r1-path', required=False, type=str,
+                        default="./data/r1.tif",
+                        help='ref raster file 1 in TIFF format')
+    parser.add_argument('--r2-path', required=False, type=str,
+                        default="./data/r2.tif",
+                        help='ref raster file 2 in TIFF format')
+    parser.add_argument('--r-path', required=False, type=str,
+                        default="./data/r.tif",
+                        help='source raster file in TIFF format')
+    parser.add_argument('--mask-path', required=False, type=str,
+                        default="./data/mask.tif",
+                        help='mask raster file in TIFF format')
+    parser.add_argument('--model-path', required=False, type=str,
+                        default="./data/model.model",
+                        help='trained model')
     parser.add_argument('--result-path', required=False, type=str,
                         default="2",
                         help='result raster file in TIFF format')
@@ -245,11 +270,11 @@ def write_raster_with_ref(raster_array, result_path, ref_path, format='GTiff'):
     print("### Success @ write_raster_with_ref() ##################")
 
 
-def main_fusion():
+def fusion_train_predict():
 
     ###########################################################
     # cmd line
-    # opts = parse_args()
+    # opts = parse_args_train_predict()
     # raster1_path = opts.r1_path
     # raster2_path = opts.r2_path
     # raster_path = opts.r_path
@@ -282,12 +307,52 @@ def main_fusion():
     print("### Task over #############################################")
 
 
+def fusion_predict():
+
+    ###########################################################
+    # cmd line
+    # opts = parse_args_predict()
+    # raster1_path = opts.r1_path
+    # raster2_path = opts.r2_path
+    # raster_path = opts.r_path
+    # mask_path = opts.mask_path
+    # model_path = opts.model_path
+    # result_path = opts.result_path
+
+    raster1_path = r'G:\tongnan\S2A_MSIL2A_20220411_R061_T48RWU_10m.tif'
+    raster2_path = r'G:\tongnan\S2B_MSIL2A_20220426_R061_T48RWU_10m.tif'
+    raster_path = r'G:\tongnan\S2A_MSIL2A_20220421_R061_T48RWU_10m.tif'
+    mask_path = r'G:\tongnan\S2A_MSIL2A_20220421_cloud_mask_2.tif'
+    model_path = r'G:\tongnan\fusion.model'
+    result_path = r'G:\tongnan\S2A_MSIL2A_20220421_R061_T48RWU_10m_ml.tif'
+
+    ###########################################################
+    # do
+    r1_array = read_raster1(raster1_path)
+    r2_array = read_raster2(raster2_path)
+    raster_array, mask_array = read_target_raster(raster_path, mask_path)
+
+    # train_array_re, label_array_re = reshape_array_for_train(r1_array, r2_array, raster_array, mask_array)
+    # model = construct_model(train_array_re, label_array_re)
+    model = joblib.load(model_path)
+
+    predict_array_re, row_array, col_array = reshape_array_for_predict(r1_array, r2_array, mask_array)
+    predict_result = model_predict(model, predict_array_re)
+
+    target_array = clear_prediction_mosaic(raster_array, predict_result, row_array, col_array)
+    write_raster_with_ref(target_array, result_path, raster_path)
+
+    ###########################################################
+    # close
+    print("### Task over #############################################")
+
+
 def main():
     print("######################################################################################")
     print("### Raster fusion using two temporal images ##########################################")
     print("######################################################################################")
 
-    main_fusion()
+    fusion_train_predict()
 
     print("### Task over #############################################")
 
