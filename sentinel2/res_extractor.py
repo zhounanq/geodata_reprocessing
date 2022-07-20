@@ -372,9 +372,9 @@ def main():
     # s2res_path = opts.target_path
     # res = opts.res
 
-    s2img_path = r'F:\application_dataset\datafusion\S2B_MSIL2A_20220426T033529_N0400_R061_T48RWU_20220426T070029.SAFE\MTD_MSIL2A.xml'
-    s2res_path = r'F:\application_dataset\datafusion\S2B_MSIL2A_20220426_R061_T48RWU_10m.tif'
-    res = '10m'
+    s2img_path = r'H:\FF\application_dataset\2020-france-agri\s2_l1c\S2A_MSIL2A_20190821T104031_N9999_R008_T31TFN_20220718T071759.SAFE\MTD_MSIL2A.xml'
+    s2res_path = r'H:\FF\application_dataset\2020-france-agri\s2_l1c\S2A_MSIL2A_20190821_R008_T31TFN_20m.tif'
+    res = '20m'
 
     ###########################################################
     # # 1. read gdal image using sentinel-2 driver.
