@@ -14,6 +14,7 @@ import numpy as np
 from osgeo import gdal, osr
 
 os.environ['CPL_ZIP_ENCODING'] = 'UTF-8'
+os.environ['PROJ_LIB'] = r'D:\develop-envi\anaconda3\envs\py38\Lib\site-packages\pyproj\proj_dir\share\proj'
 gdal.UseExceptions()
 
 
@@ -372,9 +373,9 @@ def main():
     # s2res_path = opts.target_path
     # res = opts.res
 
-    s2img_path = r'H:\FF\application_dataset\2020-france-agri\s2_l1c\S2A_MSIL2A_20190821T104031_N9999_R008_T31TFN_20220718T071759.SAFE\MTD_MSIL2A.xml'
-    s2res_path = r'H:\FF\application_dataset\2020-france-agri\s2_l1c\S2A_MSIL2A_20190821_R008_T31TFN_20m.tif'
-    res = '20m'
+    s2img_path = r'K:\FF\application_dataset\2021-yongchuan\4date\2021-06-30_2021-07-09\S2B_MSIL2A_20210707T032539_N9999_R018_T48RWT_20220807T072418.SAFE\MTD_MSIL2A.xml'
+    s2res_path = r'K:\FF\application_dataset\2021-yongchuan\4date\2021-06-30_2021-07-09\L1C_T48RWT_20210707_10m.tif'
+    res = '10m'
 
     ###########################################################
     # # 1. read gdal image using sentinel-2 driver.

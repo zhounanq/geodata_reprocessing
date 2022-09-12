@@ -14,6 +14,7 @@ import numpy as np
 from osgeo import gdal, osr
 
 os.environ['CPL_ZIP_ENCODING'] = 'UTF-8'
+os.environ['PROJ_LIB'] = r'D:\develop-envi\anaconda3\envs\py38\Lib\site-packages\pyproj\proj_dir\share\proj'
 gdal.UseExceptions()
 
 
@@ -95,14 +96,14 @@ def main():
 
     ###########################################################
     # cmd line
-    opts = parse_args()
-    src_path = opts.src_path
-    target_path = opts.target_path
-    mask_path = opts.mask_path
+    # opts = parse_args()
+    # src_path = opts.src_path
+    # target_path = opts.target_path
+    # mask_path = opts.mask_path
 
-    # src_path = r'H:\FF\application_dataset\2020-france-agri\s2_l2a_tif\10m\S2A_MSIL2A_20190103T104431_10m.tif'
-    # target_path = r'H:\FF\application_dataset\2020-france-agri\s2_l2a_tif_mask\S2A_MSIL2A_20190103T104431_10m_mask.tif'
-    # mask_path = r'H:\FF\application_dataset\2020-france-agri\s2_l1c_fmask_mask_band_10m\L1C_T31TFN_20190103T104708_Fmask4_mask_10m.tif'
+    src_path = r'K:\FF\application_dataset\2021-yongchuan\4date\2021-06-30_2021-07-09\src_yc\L1C_T48RWT_20210707_10m_yc.tif'
+    target_path = r'K:\FF\application_dataset\2021-yongchuan\4date\2021-06-30_2021-07-09\masked_tif\L1C_T48RWT_20210707_10m_yc.tif'
+    mask_path = r'K:\FF\application_dataset\2021-yongchuan\4date\2021-06-30_2021-07-09\mask_re_10m\20210707_mask_10m.tif'
 
     ###########################################################
     pixel_wise_mask(src_path, target_path, mask_path)

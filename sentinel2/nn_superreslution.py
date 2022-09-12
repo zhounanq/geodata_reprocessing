@@ -14,6 +14,7 @@ import numpy as np
 from osgeo import gdal, osr
 
 os.environ['CPL_ZIP_ENCODING'] = 'UTF-8'
+os.environ['PROJ_LIB'] = r'D:\develop-envi\anaconda3\envs\py38\Lib\site-packages\pyproj\proj_dir\share\proj'
 gdal.UseExceptions()
 
 
@@ -136,14 +137,14 @@ def main():
 
     ###########################################################
     # cmd line
-    opts = parse_args()
-    raster20_path = opts.src_path
-    raster10_path = opts.target_path
-    res_scale = int(opts.res_scale)
+    # opts = parse_args()
+    # raster20_path = opts.src_path
+    # raster10_path = opts.target_path
+    # res_scale = int(opts.res_scale)
 
-    # raster20_path = r'H:\FF\application_dataset\2020-france-agri\s2_l1c_fmask_mask_band\L1C_T31TFN_20190103T104708_Fmask4_mask.tif'
-    # raster10_path = r'H:\FF\application_dataset\2020-france-agri\s2_l1c_fmask_mask_band_10m\L1C_T31TFN_20190103T104708_Fmask4_mask.tif'
-    # res_scale = 2
+    raster20_path = r'K:\FF\application_dataset\2021-yongchuan\4date\2021-06-30_2021-07-09\mask_re\20210707_mask_20m.tif'
+    raster10_path = r'K:\FF\application_dataset\2021-yongchuan\4date\2021-06-30_2021-07-09\mask_re_10m\20210707_mask_10m.tif'
+    res_scale = 2
 
     ###########################################################
     nn_supres_20_10(raster20_path, raster10_path, res_scale)
