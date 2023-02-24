@@ -14,6 +14,7 @@ import numpy as np
 from osgeo import gdal, osr
 gdal.UseExceptions()
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description='Band extractor for Raster dataset')
     parser.add_argument('--src-raster', required=False, type=str,

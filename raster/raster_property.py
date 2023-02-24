@@ -92,8 +92,8 @@ def main():
     src_path = opts.src_path
     nodata = int(opts.nodata)
 
-    src_path = r'K:\FF\application_dataset\2021-yongchuan\2mvc\L1C_T48RWT_2021051X_10m_yc.tif'
-    nodata = 0
+    # src_path = r'K:\FF\application_dataset\2021-yongchuan\2mvc\L1C_T48RWT_2021051X_10m_yc.tif'
+    # nodata = 0
 
     set_raster_nodata(src_path, nodata)
 

@@ -137,13 +137,13 @@ def main():
 
     ###########################################################
     # cmd line
-    # opts = parse_args()
-    # raster20_path = opts.src_path
-    # raster10_path = opts.target_path
-    # res_scale = int(opts.res_scale)
+    opts = parse_args()
+    raster20_path = opts.src_path
+    raster10_path = opts.target_path
+    res_scale = int(opts.res_scale)
 
-    raster20_path = r'K:\FF\application_dataset\2021-yongchuan\4date\2021-06-30_2021-07-09\mask_re\20210707_mask_20m.tif'
-    raster10_path = r'K:\FF\application_dataset\2021-yongchuan\4date\2021-06-30_2021-07-09\mask_re_10m\20210707_mask_10m.tif'
+    # raster20_path = r'K:\FF\application_dataset\2021-yongchuan\4date\2021-06-30_2021-07-09\mask_re\20210707_mask_20m.tif'
+    # raster10_path = r'K:\FF\application_dataset\2021-yongchuan\4date\2021-06-30_2021-07-09\mask_re_10m\20210707_mask_10m.tif'
     res_scale = 2
 
     ###########################################################
